@@ -1,0 +1,3 @@
+Nome: Rafael
+CPF: 12410925
+Coeficiente: 1.00
