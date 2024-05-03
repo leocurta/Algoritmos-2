@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 void removeCaracter(char *str, char caracter){
     char *fim = str;

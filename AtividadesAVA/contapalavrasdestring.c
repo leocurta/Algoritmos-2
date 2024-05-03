@@ -8,7 +8,6 @@ int contarPalavras(char *str) {
         }
         str++;
     }
-
     return cont;
 }
 

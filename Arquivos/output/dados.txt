@@ -1,3 +1,6 @@
-Nome: Rafael
-CPF: 12410925
-Coeficiente: 1.00
+Nome: leonardo
+CPF: 1903591
+Coeficiente: 5.00
+Nome: raquel
+CPF: 123581375
+Coeficiente: 6.00
