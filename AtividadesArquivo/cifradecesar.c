@@ -1,95 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define MAX 100
 
-void criptografar(char* message, int shift) {
-    char ch;
-    for(int i = 0; message[i] != '\0'; ++i) {
-        ch = message[i];
-        if(ch >= 'a' && ch <= 'z'){
-            ch = ch + shift;
-            if(ch > 'z'){
-                ch = ch - 'z' + 'a' - 1;
-            }
-            message[i] = ch;
-        }
-        else if(ch >= 'A' && ch <= 'Z'){
-            ch = ch + shift;
-            if(ch > 'Z'){
-                ch = ch - 'Z' + 'A' - 1;
-            }
-            message[i] = ch;
+void criptografar(char frase[], int chave) {
+    for (int i = 0; frase[i] != '\0';i++){
+        if (frase[i] >= 'A' && frase[i] <= 'Z') {
+            frase[i] = (frase[i] - 'A' + chave) % 26 + 'A';
+        } else if (frase[i] >= 'a' && frase[i] <= 'z') {
+            frase[i] = (frase[i] - 'a' + chave) % 26 + 'a';
         }
     }
 }
 
-void decrypt(char* message, int shift) {
-    char ch;
-    for(int i = 0; message[i] != '\0'; ++i) {
-        ch = message[i];
-        if(ch >= 'a' && ch <= 'z'){
-            ch = ch - shift;
-            if(ch < 'a'){
-                ch = ch + 'z' - 'a' + 1;
-            }
-            message[i] = ch;
-        }
-        else if(ch >= 'A' && ch <= 'Z'){
-            ch = ch - shift;
-            if(ch < 'A'){
-                ch = ch + 'Z' - 'A' + 1;
-            }
-            message[i] = ch;
-        }
-    }
-}
-
-void write_file(const char* filename, const char* message) {
-    FILE *file = fopen(filename, "w");
-    if (file == NULL) {
-        printf("Could not open file %s", filename);
-        return;
-    }
-    fprintf(file, "%s", message);
-    fclose(file);
-}
-
-char* read_file(const char* filename) {
-    char* buffer = 0;
-    long length;
-    FILE *file = fopen(filename, "r");
-
-    if (file) {
-        fseek(file, 0, SEEK_END);
-        length = ftell(file);
-        fseek(file, 0, SEEK_SET);
-        buffer = malloc(length);
-        if (buffer) {
-            fread(buffer, 1, length, file);
-        }
-        fclose(file);
-    }
-    return buffer;
+void descriptografar(char frase[], int chave) {
+    criptografar(frase, 26 - chave);
 }
 
 int main() {
-    char message[MAX];
-    int shift;
+    char frase[100];
+    int chave;
 
-    printf("Entre com a mensagem para ser criptografada: ");
-    fgets(message, MAX, stdin);
-    printf("Digite a chave: ");
-    scanf("%d", &shift);
+    printf("Digite a frase a ser criptografada: ");
+    fgets(frase, 100, stdin);
+    printf("digite a chave:");
+    scanf("%d", &chave);
 
-    criptografar(message, shift);
-    printf("Mensagem criptografada: %s", message);
-    write_file("encrypted.txt", message);
+    if (frase[strlen(frase) - 1] == '\n') {
+        frase[strlen(frase) - 1] = '\0';
+    }
+    criptografar(frase, chave);
 
-    char* encrypted_message = read_file("encrypted.txt");
-    decrypt(encrypted_message, shift);
-    printf("Mensagem descriptografada: %s", encrypted_message);
+    FILE *arquivo = fopen("mensagem_cifrada.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return 1;
+    }
 
+    fprintf(arquivo, "%s", frase);
+    fclose(arquivo);
+
+    printf("Frase criptografada e salva no arquivo 'mensagem_cifrada.txt'.\n");
+    printf("Frase criptografada: %s\n", frase);
+    descriptografar(frase, chave);
+    printf("Frase descriptografada: %s\n", frase);
     return 0;
 }

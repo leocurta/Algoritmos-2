@@ -8,30 +8,30 @@ typedef struct {
 } Aluno;
 
 void gravarAlunos(Aluno* alunos, const char* filename) {
-    FILE *file = fopen(filename, "w");
-    if (file == NULL) {
+    FILE *arquivo = fopen(filename, "w");
+    if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.");
         return;
     }
     for (int i = 0; i < 5; i++) {
-        fprintf(file, "%s %s %.2f\n", alunos[i].nome, alunos[i].cpf, alunos[i].coeficiente);
+        fprintf(arquivo, "%s %s %.2f\n", alunos[i].nome, alunos[i].cpf, alunos[i].coeficiente);
     }
-    fclose(file);
+    fclose(arquivo);
 }
 
-void encontrarEGravar(Aluno* alunos, const char* filename, const char* nome) {
-    FILE *file = fopen(filename, "w");
-    if (file == NULL) {
+void encontrarEGravar(Aluno* alunos, const char* nomeArquivo, const char* nome) {
+    FILE *arquivo = fopen(nomeArquivo, "w");
+    if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.");
         return;
     }
     for (int i = 0; i < 5; i++) {
         if (strcmp(alunos[i].nome, nome) == 0) {
-            fprintf(file, "%s %s %.2f\n", alunos[i].nome, alunos[i].cpf, alunos[i].coeficiente);
+            fprintf(arquivo, "%s %s %.2f\n", alunos[i].nome, alunos[i].cpf, alunos[i].coeficiente);
             break;
         }
     }
-    fclose(file);
+    fclose(arquivo);
 }
 
 int main() {
@@ -44,7 +44,7 @@ int main() {
     };
 
     gravarAlunos(alunos, "alunos.txt");
-    encontrarEGravar(alunos, "alunos_maria.txt", "Maria");
+    encontrarEGravar(alunos, "alunos_encontrado.txt", "Maria");
 
     return 0;
 }

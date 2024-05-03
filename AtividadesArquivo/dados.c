@@ -1,16 +1,12 @@
 #include <stdio.h>
 
 void imprimirDados(FILE *arquivo) {
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo.");
-        return;
-    }
     char nome[50];
     char cpf[12];
     float coeficiente;
 
-    fscanf(arquivo, "Nome: %s\n", nome);
-    fscanf(arquivo, "CPF: %s\n", cpf);
+    fscanf(arquivo, "Nome: %s\n", &nome);
+    fscanf(arquivo, "CPF: %s\n", &cpf);
     fscanf(arquivo, "Coeficiente: %f\n", &coeficiente);
     printf("Nome: %s\n", nome);
     printf("CPF: %s\n", cpf);
