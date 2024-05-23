@@ -5,9 +5,9 @@ void imprimirDados(FILE *arquivo) {
     char cpf[12];
     float coeficiente;
 
-    fscanf(arquivo, "Nome: %s\n", &nome);
-    fscanf(arquivo, "CPF: %s\n", &cpf);
-    fscanf(arquivo, "Coeficiente: %f\n", &coeficiente);
+    fscanf(arquivo, "%s\n", nome);
+    fscanf(arquivo, "%s\n", cpf);
+    fscanf(arquivo, "%f\n", &coeficiente);
     printf("Nome: %s\n", nome);
     printf("CPF: %s\n", cpf);
     printf("Coeficiente: %.2f\n", coeficiente);
@@ -25,21 +25,27 @@ int main() {
     printf("Digite o coeficiente: ");
     scanf("%f", &coeficiente);
 
-
-    FILE *arquivo = fopen("dados.txt", "a");
+    FILE *arquivo = fopen("dados.txt", "w");
 
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.");
         return 1;
     }
-    fprintf(arquivo, "Nome: %s\n", nome);
-    fprintf(arquivo, "CPF: %s\n", cpf);
-    fprintf(arquivo, "Coeficiente: %.2f\n", coeficiente);
+
+    fprintf(arquivo, "%s\n", nome);
+    fprintf(arquivo, "%s\n", cpf);
+    fprintf(arquivo, "%.2f\n", coeficiente);
+
     fclose(arquivo);
 
-    printf("Dados gravados com sucesso no arquivo dados.txt.\n");
     arquivo = fopen("dados.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.");
+        return 1;
+    }
+
     imprimirDados(arquivo);
+
     fclose(arquivo);
 
     return 0;
